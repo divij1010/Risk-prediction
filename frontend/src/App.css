@@ -1,0 +1,543 @@
+:root {
+  /* New dusk palette for improved contrast & warmth */
+  --bg-start: #071326; /* deep midnight */
+  --bg-mid: #0b3854;   /* teal-blue */
+  --bg-2: #0f5a6a;     /* soft teal */
+  --accent: #ff7a59;   /* preserved warm accent */
+  --accent-2: #ef5f3f;
+  --muted: #9aa6b2;
+  --card-bg: #ffffff;
+  --glass: rgba(255,255,255,0.04);
+  --radius: 10px;
+  --font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  color: #fff;
+  /* Layered background: dusk gradient + soft highlights + vignette */
+  background: radial-gradient(circle at 8% 18%, rgba(255,255,255,0.03), transparent 6%),
+              radial-gradient(circle at 92% 82%, rgba(255,255,255,0.02), transparent 6%),
+              linear-gradient(135deg, var(--bg-start) 0%, var(--bg-mid) 45%, var(--bg-2) 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  /* subtle vignette for depth */
+  box-shadow: inset 0 40px 80px rgba(0,0,0,0.18);
+}
+
+/* Animated subtle overlay to give depth */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(60deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00) 30%, rgba(0,0,0,0.02));
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 0;
+  animation: gradientShift 30s linear infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Background drift for subtle motion */
+@keyframes bgDrift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Decorative soft floating shapes */
+body::after {
+  content: "";
+  position: fixed;
+  right: -120px;
+  top: 20vh;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.03), rgba(255,255,255,0.00) 30%),
+              radial-gradient(circle at 70% 70%, rgba(255,255,255,0.02), rgba(255,255,255,0.00) 30%);
+  filter: blur(30px);
+  opacity: 0.7;
+  transform: rotate(-15deg);
+  pointer-events: none;
+  /* subtle float movement */
+  animation: floatShapes 28s ease-in-out infinite alternate;
+}
+
+@keyframes floatShapes {
+  0% { transform: rotate(-15deg) translateY(0px); }
+  50% { transform: rotate(-18deg) translateY(-10px); }
+  100% { transform: rotate(-15deg) translateY(0px); }
+}
+
+/* Apply drift to the main background using a large background-size; respects reduced-motion */
+body {
+  background-size: 300% 300%;
+  animation: bgDrift 36s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body, body::before, body::after { animation: none !important; }
+}
+
+/* Global micro-interactions */
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.brand .logo {
+  font-size: 20px;
+}
+
+.brand-text { line-height: 1; text-align: left; }
+.brand-text .tagline { font-size: 11px; opacity: 0.9; }
+
+.logo-img { width: 36px; height: 36px; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
+
+.hero {
+  margin: 18px 0 10px 0;
+}
+
+.hero-card {
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  padding: 14px 18px;
+  border-radius: calc(var(--radius) + 4px);
+  color: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.24);
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.hero-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.36); }
+
+.hero-stat { text-align: left; }
+.hero-stat .title { font-size: 12px; color: rgba(255,255,255,0.8); }
+.hero-stat .value { font-size: 22px; font-weight: 700; margin-top: 4px; }
+
+/* small chip */
+.kpi-chip { background: rgba(255,255,255,0.09); padding: 6px 10px; border-radius: 999px; font-weight: 600; }
+
+
+/* Header styling to stand out */
+.app-header {
+  padding: 8px 10px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  z-index: 2;
+}
+
+h1 { text-shadow: 0 2px 8px rgba(0,0,0,0.35); font-weight: 700; letter-spacing: -0.02em; font-size: 20px; margin: 0; }
+
+.App {
+  text-align: center;
+  padding: 30px;
+  color: white;
+}
+
+h1 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+/* Headings scale */
+h2 { font-size: 18px; margin: 0 0 8px 0; }
+h3 { font-size: 15px; margin: 12px 0 6px 0; }
+
+/* Icon button utility */
+.btn-icon { display: inline-flex; align-items: center; gap: 8px; }
+.btn-icon img { width: 14px; height: 14px; }
+
+/* Light theme overrides on .App */
+.App.theme-light {
+  background: linear-gradient(90deg, var(--bg-start), var(--bg-mid));
+  color: #111;
+}
+.App.theme-light .result-card, .App.theme-light .teacher-card, .App.theme-light form {
+  background: var(--card-bg);
+  color: #111;
+}
+.App.theme-light .hero-card {
+  background: linear-gradient(90deg, rgba(0,0,0,0.03), rgba(0,0,0,0.02));
+  color: #111;
+}
+
+/* Theme toggle fade overlay for smoother transition */
+.App { transition: background 360ms ease, color 300ms ease; position: relative; }
+.App.theme-switching::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0.12;
+  pointer-events: none;
+  animation: themeFade 360ms ease;
+  z-index: 4;
+}
+@keyframes themeFade {
+  0% { opacity: 0.28; }
+  100% { opacity: 0; }
+}
+
+/* Page container: two-column layout for larger screens */
+.app-container {
+  max-width: 800px; /* narrower overall so content occupies roughly half screen on wide displays */
+  margin: 24px auto;
+  display: grid;
+  grid-template-columns: 1fr 320px; /* flexible left content + form column */
+  gap: 20px;
+  align-items: start;
+  padding: 0 16px;
+}
+
+/* Wide view override when user chooses wide layout */
+.app-container.wide {
+  max-width: 1100px;
+  grid-template-columns: 1fr 420px;
+}
+
+/* Centered single-column layout used when no prediction exists */
+.centered-column {
+  max-width: 640px;
+  margin: 24px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center the floating form card */
+  padding: 0 12px;
+  color: #111; /* dark text for card + form */
+}
+
+.centered-column .result-card {
+  margin-bottom: 18px;
+  color: #111;
+  text-align: left; /* make text left-aligned */
+}
+
+/* Make headings, labels, and badges readable when inside cards */
+.result-card h2, .result-card h3, label {
+  color: #111;
+  text-align: left;
+}
+
+
+/* Header control styles */
+.header-controls { display: flex; align-items: center; }
+
+.view-toggle {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 220ms ease;
+}
+
+.view-toggle:hover { transform: translateY(-3px); }
+.view-toggle:active { transform: translateY(-1px) scale(.99); }
+
+.toggle-icon { display: inline-block; margin-right: 6px; transition: transform 320ms ease; }
+.App.wide .toggle-icon { transform: rotate(180deg); }
+
+/* Slightly different look for the button so it stands out on header */
+.App .view-toggle {
+  background: linear-gradient(90deg,var(--accent),var(--accent-2));
+  color: white;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+}
+.App .view-toggle:hover { opacity: 0.95; transform: translateY(-3px); }
+
+/* Smooth layout transitions */
+.app-container {
+  transition: max-width 360ms cubic-bezier(.2,.8,.2,1), grid-template-columns 360ms ease;
+}
+
+/* Result card subtle animation */
+.result-card {
+  transition: transform 280ms ease, opacity 280ms ease, box-shadow 220ms ease;
+}
+.App.wide .result-card { transform: translateY(-4px); }
+.result-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+
+/* Teacher card hover lift */
+.teacher-card:hover { transform: translateY(-6px); box-shadow: 0 18px 36px rgba(0,0,0,0.28); }
+
+
+
+/* Form styling: floating card for form */
+form {
+  background: white;
+  padding: 25px;
+  width: 380px; /* restored floating card width */
+  margin: 20px auto;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.32);
+  animation: float 3s ease-in-out infinite;
+  /* Ensure form text is dark and left-aligned */
+  color: #111;
+  text-align: left;
+} 
+
+label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #111; }
+
+input {
+  width: 95%;
+  padding: 10px;
+  margin: 8px auto 12px auto;
+  border-radius: 6px;
+  border: 1px solid #eee;
+  font-size: 13px;
+} 
+
+/* Lower contrast placeholder for clarity but readable */
+input::placeholder { color: #9aa; opacity: 1; }
+
+/* Improve accessibility: focus ring */
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(42,82,152,0.12);
+  border-color: #2a5298;
+}
+
+button {
+  padding: 10px 14px;
+  border: none;
+  background-color: #ff7a59;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+button:hover {
+  background-color: #ef5f3f;
+}
+
+/* Result card: full width of its column and improved spacing */
+.result-card {
+  background: white;
+  margin: 0;
+  padding: 18px;
+  width: 100%;
+  border-radius: 10px;
+  color: black;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.22);
+}
+
+/* Header area with badges */
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.result-title {
+  margin: 0;
+  font-size: 18px;
+}
+
+.badge {
+  background: linear-gradient(90deg,#2a5298,#1e3c72);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.confidence {
+  margin-left: 8px;
+  color: #666;
+  font-size: 12px;
+}
+
+/* Visuals grid for pie + bar */
+.result-visuals {
+  display: grid;
+  grid-template-columns: 260px 320px; /* fixed width for pie and chart */
+  gap: 12px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.pie-wrapper {
+  max-width: 220px; /* narrower pie */
+  height: 200px;    /* compact height */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pie-wrapper canvas {
+  max-width: 220px !important;
+  max-height: 200px !important;
+}
+
+.pie-overlay {
+  position: absolute;
+  pointer-events: none;
+  text-align: center;
+}
+
+.pie-overlay .risk-label {
+  font-weight: 700;
+  color: #222;
+  font-size: 16px;
+}
+
+.pie-overlay .risk-confidence {
+  color: #666;
+  font-size: 12px;
+}
+
+.bar-wrapper {
+  max-width: 320px; /* constrain bar chart */
+  padding-top: 6px;
+}
+
+.bar-wrapper canvas {
+  max-width: 320px !important;
+  max-height: 160px !important;
+}
+
+/* Quick stats and actions */
+.quick-stats {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* Teacher dashboard small card style */
+.teacher-dashboard .teacher-card { background: white; color: #111; }
+.teacher-dashboard table, .teacher-dashboard th, .teacher-dashboard td { color: #111; }
+.teacher-dashboard h2, .teacher-dashboard h3 { color: white; text-align: center; }
+
+.teacher-card button, .teacher-dashboard button { margin-left: 6px; cursor: pointer; }
+.teacher-dashboard table td { vertical-align: top; }
+.teacher-dashboard table td button { padding: 6px 8px; background: #ff7a59; color: white; border: none; border-radius: 6px; }
+.teacher-dashboard .teacher-card button { background: #2a5298; color: white; border: none; }
+
+
+
+.quick-stats .stat {
+  background: #fafafa;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-align: left;
+  min-width: 90px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+}
+
+.quick-stats .stat-title {
+  color: #666;
+  font-size: 11px;
+}
+
+.quick-stats .stat-value {
+  font-weight: 700;
+  color: #111;
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.actions button {
+  padding: 8px 10px;
+  font-size: 13px;
+  border-radius: 6px;
+}
+
+.legend {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.legend-item {
+  font-size: 12px;
+  color: #444;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.dot.low { background: #4CAF50; }
+.dot.medium { background: #FFC107; }
+.dot.high { background: #F44336; }
+
+.reason-list {
+  margin-left: 0;
+  padding-left: 16px;
+}
+
+.reason-list li {
+  margin-bottom: 6px;
+}
+
+.reason-bullet {
+  color: #ef5f3f;
+  margin-right: 8px;
+}
+
+/* Responsive: single-column on small screens */
+@media (max-width: 920px) {
+  .app-container {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  .result-visuals {
+    grid-template-columns: 1fr;
+  }
+}
+/* Responsive: single-column on small screens */
+@media (max-width: 920px) {
+  .app-container {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  .result-visuals {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@keyframes float {
+  0% { transform: translatey(0px); }
+  50% { transform: translatey(-10px); }
+  100% { transform: translatey(0px); }
+}
