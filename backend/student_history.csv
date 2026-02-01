@@ -1,0 +1,4 @@
+timestamp,student_id,attendance_trend,assignment_delay_avg,marks_std,engagement_score,risk_level
+2026-02-01 23:47:21.438404,0112,-7.0,4.0,12.0,0.3333333333333333,High
+2026-02-01 23:50:32.287731,0112,5.0,1.0,15.0,0.6,Medium
+2026-02-01 23:50:50.875428,0112,5.0,1.0,3.0,0.6,Low

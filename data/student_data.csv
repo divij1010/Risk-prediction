@@ -1,0 +1,6 @@
+attendance_current,attendance_prev,assignment_delay_avg,marks_std,lms_logins,total_days,risk_level
+78,85,4,12,40,120,High
+90,88,1,6,85,120,Low
+82,80,2,8,60,120,Medium
+65,78,6,15,25,120,High
+95,92,0,4,95,120,Low
